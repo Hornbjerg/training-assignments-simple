@@ -7,10 +7,11 @@ public class BinaryTreeSearch {
         if (node.getValue() == nodeValue) {
             return depth;
         }
-        if (nodeValue < node.getValue()) {
-        	return handleNode(node.getLeft(), nodeValue);
-        }
-        return handleNode(node.getRight(), nodeValue);
+        return handleNode(getChildNode(node, nodeValue), nodeValue);
+    }
+
+    private static BinaryTreeNode<Integer> getChildNode(BinaryTreeNode<Integer> node, int nodeValue) {
+    	return nodeValue < node.getValue() ? node.getLeft() : node.getRight();
     }
 
 	private static int handleNode(BinaryTreeNode<Integer> node, int nodeValue) {
