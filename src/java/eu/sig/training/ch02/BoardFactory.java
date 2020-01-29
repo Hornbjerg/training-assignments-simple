@@ -5,29 +5,32 @@ public class BoardFactory {
     public Board createBoard(Square[][] grid) {
         assert grid != null;
 
-        Board board = new Board(grid);
+        return create(new Board(grid));
+    }
 
-        int width = board.getWidth();
+	private Board create(Board board) {
+		int width = board.getWidth();
         int height = board.getHeight();
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
-                Square square = grid[x][y];
-                for (Direction dir : Direction.values()) {
-                    int dirX = (width + x + dir.getDeltaX()) % width;
-                    int dirY = (height + y + dir.getDeltaY()) % height;
-                    Square neighbour = grid[dirX][dirY];
-                    square.link(neighbour, dir);
-                }
+                linkSquare(board, x, y);
             }
         }
-
         return board;
-    }
-    // end::createBoard[]
+	}
+
+	private void linkSquare(Board board, int x, int y) {
+		Square square = board.getGrid()[x][y];
+		for (Direction dir : Direction.values()) {
+		    int dirX = (board.getWidth() + x + dir.getDeltaX()) % board.getWidth();
+		    int dirY = (board.getHeight() + y + dir.getDeltaY()) % board.getHeight();
+		    Square neighbour = board.getGrid()[dirX][dirY];
+		    square.link(neighbour, dir);
+		}
+	}
 }
 
 class Board {
-    @SuppressWarnings("unused")
     public Board(Square[][] grid) {}
 
     public int getWidth() {
@@ -37,10 +40,12 @@ class Board {
     public int getHeight() {
         return 0;
     }
+    public Square[][] getGrid() {
+    	return null;
+    }
 }
 
 class Square {
-    @SuppressWarnings("unused")
     public void link(Square neighbour, Direction dir) {}
 }
 
